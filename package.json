@@ -1,0 +1,22 @@
+{
+  "name": "ocaml-pastebin",
+  "version": "1.0.0",
+  "repository": "https://github.com/nogw/ocaml-pastebin",
+  "license": "MIT",
+  "esy": { "buildsInSource": "_build", "build": "dune build" },
+  "scripts": {
+    "watch": "esy b dune build ./bin/main.exe -w",
+    "start": "esy b dune exec ./bin/main.exe"
+  },
+  "dependencies": {
+    "@opam/ctypes-foreign": "0.18.0",
+    "@opam/dune": "2.9.1",
+    "@opam/opium": "0.20.0",
+    "@opam/ppx_deriving_yojson": "3.6.1",
+    "@opam/ppx_rapper": "3.0.0",
+    "@opam/ppx_rapper_lwt": "3.0.0",
+    "@opam/uuidm": "0.9.7",
+    "@opam/yojson": "1.7.0",
+    "ocaml": "^4.12.0"
+  }
+}
