@@ -1,13 +1,15 @@
 open Opium
 
 type message = {
-  id: Uuidm.t;
+  id: string;
   message: string;
 } [@@deriving yojson]
 
-let get_message req = req
+let get_message _req = 
+  Response.of_plain_text "Hello World" |> Lwt.return
 
-let post_message req = req'
+let post_message _req = 
+  Response.of_plain_text "Hello World" |> Lwt.return
 
 let init_server = 
   App.empty 
