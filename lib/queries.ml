@@ -1,3 +1,8 @@
+type message = {
+  id: string;
+  message: string;
+} [@@deriving yojson]
+
 let ensure_table_exists =
   [%rapper
     execute
@@ -11,11 +16,12 @@ let ensure_table_exists =
 
 let create_pastebin =
   [%rapper
-    get_opt
+    execute
     {sql|
       INSERT INTO pastebins (id, message)
       VALUES (%string{id}, %string{message})
     |sql}
+    record_in
   ]
 
 let get_pastebin =
