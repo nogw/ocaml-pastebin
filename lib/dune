@@ -1,11 +1,11 @@
 (library
  (name server)
- (libraries 
-  opium 
-  uuidm  
+ (libraries
+  opium
+  uuidm
   caqti
   caqti-lwt
-  ; caqti-driver-postgresql
+  caqti-driver-postgresql
   ppx_rapper_lwt)
  (preprocess
   (pps ppx_deriving_yojson ppx_rapper)))

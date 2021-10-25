@@ -1,7 +1,4 @@
-type message = {
-  id: string;
-  message: string;
-} [@@deriving yojson]
+type message_stored = { id: string; message : string } [@@deriving yojson]
 
 let ensure_table_exists =
   [%rapper
@@ -14,7 +11,7 @@ let ensure_table_exists =
     |sql}
   ]
 
-let create_pastebin =
+let insert =
   [%rapper
     execute
     {sql|
@@ -24,7 +21,7 @@ let create_pastebin =
     record_in
   ]
 
-let get_pastebin =
+let select =
   [%rapper
     get_opt
     {sql|
