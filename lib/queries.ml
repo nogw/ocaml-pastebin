@@ -1,3 +1,4 @@
+type message = { message : string } [@@deriving yojson]
 type message_stored = { id: string; message : string } [@@deriving yojson]
 
 let ensure_table_exists =
@@ -13,20 +14,21 @@ let ensure_table_exists =
 
 let insert =
   [%rapper
-    execute
+    get_one
     {sql|
       INSERT INTO pastebins (id, message)
-      VALUES (%string{id}, %string{message})
+      VALUES (%string{id}, %string{message});
+      SELECT SCOPE_IDENTITY
     |sql}
-    record_in
   ]
 
 let select =
   [%rapper
-    get_opt
+    get_one
     {sql|
-      SELECT @string{id}, @string{message}
+      SELECT @string{message}
       FROM pastebins
       WHERE id = %string{id}
     |sql}
+    record_out
   ]

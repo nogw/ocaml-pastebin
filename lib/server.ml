@@ -2,8 +2,13 @@ open Opium
 
 let ( let* ) = Lwt.bind
 
-let get_message _req = 
-  Response.of_plain_text "Hello World" |> Lwt.return
+let get_message req = 
+  let id = Router.param req "id" in
+  let* message = Storage.select id in
+  message 
+  |> [%to_yojson: Queries.message]
+  |> Response.of_json 
+  |> Lwt.return
 
 let post_message req = 
   let* req_json = Request.to_json_exn req in
@@ -12,8 +17,13 @@ let post_message req =
     | Ok message -> message
     | Error error -> failwith error
   in
-  let* () = Storage.insert req_message in
-  Lwt.return (Response.make ~status:`OK ())  
+  let* id = Storage.insert req_message in
+  ignore id;
+  Response.of_plain_text "ok" |> Lwt.return 
+  (* id 
+  |> [%to_yojson: Storage.message_id]
+  |> Response.of_json 
+  |> Lwt.return *)
 
 let init_server = 
   App.empty 
