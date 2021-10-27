@@ -17,10 +17,12 @@ let insert =
     get_one
     {sql|
       INSERT INTO pastebins (id, message)
-      VALUES (%string{id}, %string{message});
-      SELECT SCOPE_IDENTITY
+      VALUES (%string{id}, %string{message})
+      RETURNING @string{id}
     |sql}
-  ]
+    record_in
+    function_out
+  ] (fun ~id -> id)
 
 let select =
   [%rapper

@@ -21,8 +21,8 @@ let dispatch f =
 
 let insert ({ message }: message) =
   let id = Uuidm.create(`V4) |> Uuidm.to_string in
-  dispatch ( Queries.insert { id; message } )
-  |> Lwt.return
+  let* message = dispatch ( Queries.insert { id; message } ) in
+  message |> Lwt.return
 
 let select id = 
   let* message = dispatch (Queries.select ~id) in

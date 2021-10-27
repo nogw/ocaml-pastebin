@@ -18,12 +18,9 @@ let post_message req =
     | Error error -> failwith error
   in
   let* id = Storage.insert req_message in
-  ignore id;
-  Response.of_plain_text "ok" |> Lwt.return 
-  (* id 
-  |> [%to_yojson: Storage.message_id]
+  `Assoc [ ("link", `String ("http://localhost:3000/message/" ^ id)) ]
   |> Response.of_json 
-  |> Lwt.return *)
+  |> Lwt.return 
 
 let init_server = 
   App.empty 
